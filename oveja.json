@@ -1,0 +1,5 @@
+{"estado_inicial": [[0, 0, 0, 0]], 
+"estado_aceptacion": [[1, 1, 1, 1]], 
+"graph": [{"label": [[0, 0, 0, 0]], 
+            "adyacentes": []}], 
+"transiciones": []}
