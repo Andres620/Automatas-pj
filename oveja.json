@@ -1,5 +1,1 @@
-{"estado_inicial": [[0, 0, 0, 0]], 
-"estado_aceptacion": [[1, 1, 1, 1]], 
-"graph": [{"label": [[0, 0, 0, 0]], 
-            "adyacentes": []}], 
-"transiciones": []}
+{"estado_inicial": [[0, 1, 0, 1]], "estado_aceptacion": [[1, 1, 1, 1]], "graph": [{"label": [[0, 1, 0, 1]], "adyacentes": [{"label": [0, 1, 0, 1]}]}], "transiciones": []}{"estado_inicial": [[0, 1, 0, 1]], "estado_aceptacion": [[1, 1, 1, 1]], "graph": [{"label": [[0, 1, 0, 1]], "adyacentes": [{"label": [0, 1, 0, 1]}]}], "transiciones": []}

@@ -12,7 +12,8 @@ def main():
        # data =json.load(file)
         #aux=data['dominio'].append({'nombre':'jose jose'})
         #print(aux)
-    gr=generate_graph
+    oveja = {}
+    gr=generate_graph(oveja)
     gr.generate_sheep()
     
 
