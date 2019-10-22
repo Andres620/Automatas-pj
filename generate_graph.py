@@ -20,6 +20,7 @@ class generate_graph:
         
             self.oveja['graph'].append({'label':self.oveja['estado_inicial'],'FIN':False,
                                    'adyacentes':[]})
+            
             self.generate_sheep_r()
     
             with open('oveja.json', 'a') as outfile:
@@ -33,6 +34,7 @@ class generate_graph:
             #pasar repollo
             if h['label'][0][0]==0 and h['label'][0][3]==0:
                 aux=h['label'][0][:]
+                print("que e au?:",aux)
                 aux[0]=1
                 aux[3]=1
                 if h['label'][0][1]==h['label'][0][2]:
@@ -63,5 +65,21 @@ class generate_graph:
                     h['adyacentes'].append({'label':aux , 'FIN':True})
                 else:
                     h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver repollo
+            if h['label'][0][0]==1 and h['label'][0][3]==1:
+                aux=h['label'][0][:]
+                aux[0]=0
+                aux[3]=0
+                if h['label'][0][1]==h['label'][0][2]:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+
+                
+                
+                
+                
+                
                 
         
