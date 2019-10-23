@@ -9,6 +9,12 @@ class generate_graph:
     
     def __init__(self,ov):
         self.oveja=ov
+        
+    def in_graph(self,x):
+        for h in self.oveja['graph']:
+            if x==h['label']:
+                return True
+        return False
     
     def generate_sheep(self):
             self.oveja['estado_inicial'] =[]
@@ -108,7 +114,10 @@ class generate_graph:
                         
         
             for j in h['adyacentes']:
-                self.oveja['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                if self.in_graph(j['label']):
+                    continue
+                else:
+                    self.oveja['graph'].append({'label':j['label'],'FIN':j['FIN'],
                                    'adyacentes':[], 'done': False})
 
             for i in self.oveja['graph']:
