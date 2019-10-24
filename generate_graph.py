@@ -208,29 +208,29 @@ class generate_graph:
                 aux=h['label'][:]
                 aux[0]=aux[0]+1
                 aux[2]='I'
-                if (h['label'][0]==0 or h['label'][0]==2) and (h['label'][1]==1 or h['label'][1]==2)  and h['label'][0]<=h['label'][1]:
-                    h['adyacentes'].append({'label':aux , 'FIN':False})
-                else:
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
                     
             #devolver un misionero
             if h['label'][0]>0 and h['label'][2]=='I':
                 aux=h['label'][:]
                 aux[0]=aux[0]-1
                 aux[2]='D'
-                if (h['label'][0]==1 and h['label'][1]==1) or (h['label'][0]==3 or h['label'][1]==2):
-                    h['adyacentes'].append({'label':aux , 'FIN':False})
-                else:
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #pasar dos misionero
             if h['label'][0]<=1 and h['label'][2]=='D':
                 aux=h['label'][:]
                 aux[0]=aux[0]+2
                 aux[2]='I'
-                if (h['label'][0]==1 and h['label'][1]!=2):
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
                     h['adyacentes'].append({'label':aux , 'FIN':True})
-                if (h['label'][1]==1 or h['label'][1]==2) :
+                else:
                     h['adyacentes'].append({'label':aux , 'FIN':False})
 
                     
@@ -239,10 +239,10 @@ class generate_graph:
                 aux=h['label'][:]
                 aux[0]=aux[0]-2
                 aux[2]='D'
-                if (h['label'][1]==1 or h['label'][1]==2):
-                    h['adyacentes'].append({'label':aux , 'FIN':False})
-                else:
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #pasar un misionero y un canibal
             if h['label'][0]<3 and h['label'][1]<3 and h['label'][2]=='D':
@@ -250,11 +250,10 @@ class generate_graph:
                 aux[0]=aux[0]+1
                 aux[1]=aux[1]+1
                 aux[2]='I'
-                if (h['label'][0]==h['label'][1] and h['label'][0]<=2 and h['label'][1]<=2):
-                    h['adyacentes'].append({'label':aux , 'FIN':False})
-                else:
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
                     h['adyacentes'].append({'label':aux , 'FIN':True})
-            
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
 
             #devolver un misionero y un canibal
             if h['label'][0]>0 and h['label'][1]>0 and h['label'][2]=='I':
@@ -263,11 +262,10 @@ class generate_graph:
                 aux[0]=aux[0]-1
                 aux[1]=aux[1]-1
                 aux[2]='D'
-                if (h['label'][0]==h['label'][1] and h['label'][0]>=1 and h['label'][1]>=1):
-                    h['adyacentes'].append({'label':aux , 'FIN':False})
-                    print('aqui si entra 2',h['FIN'])
-                else:
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
             
             
                         
