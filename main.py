@@ -14,7 +14,8 @@ def main():
         #print(aux)
     oveja = {}
     gr=generate_graph(oveja)
-    gr.generate_sheep()
+    gr.generate_cannibal()
+    #gr.generate_sheep()
     
 
 if __name__== "__main__":

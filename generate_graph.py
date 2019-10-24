@@ -9,9 +9,16 @@ class generate_graph:
     
     def __init__(self,ov):
         self.oveja=ov
+        self.cannibal=ov
         
-    def in_graph(self,x):
+    def in_graph_sheep(self,x):
         for h in self.oveja['graph']:
+            if x==h['label']:
+                return True
+        return False
+    
+    def in_graph_cannibal(self,x):
+        for h in self.cannibal['graph']:
             if x==h['label']:
                 return True
         return False
@@ -114,7 +121,7 @@ class generate_graph:
                         
         
             for j in h['adyacentes']:
-                if self.in_graph(j['label']):
+                if self.in_graph_sheep(j['label']):
                     continue
                 else:
                     self.oveja['graph'].append({'label':j['label'],'FIN':j['FIN'],
@@ -125,6 +132,155 @@ class generate_graph:
                     i['done']=True
                     if not i['FIN']:
                         self.generate_sheep_r(i)
-                
-                
+                        
+    def generate_cannibal(self):
+            self.cannibal['estado_inicial'] =[]
+            self.cannibal['estado_aceptacion'] =[]
+            self.cannibal['graph']=[]
+            self.cannibal['transiciones'] = []
+            self.cannibal['estado_inicial'].append([0,0,'D'])
+            self.cannibal['estado_aceptacion'].append([3,3,'I'])
         
+            self.cannibal['graph'].append({'label':[0,0,'D'],'FIN':False,
+                                   'adyacentes':[], 'done':True})
+            
+            self.generate_cannibal_r(self.cannibal['graph'][0])
+            
+            for h in self.cannibal['graph']:
+                print('Label: ', h['label'], h['FIN'])
+                for i in h['adyacentes']:
+                    print('          adyacentes: ', i['label'] ,i['FIN'])
+    
+            with open('cannibal.json', 'a') as outfile:
+                json.dump(self.cannibal, outfile)
+                
+                
+    def generate_cannibal_r(self,h):
+            print('what?', h,'\n')
+            
+            #condicion de escape
+            for k in  self.cannibal['graph']:
+                if k['label']==[3,3,'I']:
+                    return
+        
+            #pasar un canibal
+            if h['label'][1]<3 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[1]=aux[1]+1
+                aux[2]="I"
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #devolver un canibal
+            if h['label'][1]>0 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[1]=aux[1]-1
+                aux[2]="D"
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #pasar dos canibal
+            if h['label'][1]<=1 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[1]=aux[1]+2
+                aux[2]='I'
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #devolver dos canibal
+            if h['label'][1]>=2 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[1]=aux[1]-2
+                aux[2]='D'
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                              
+            #pasar un misionero
+            if h['label'][0]<3 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[0]=aux[0]+1
+                aux[2]='I'
+                if (h['label'][0]==0 or h['label'][0]==2) and (h['label'][1]==1 or h['label'][1]==2)  and h['label'][0]<=h['label'][1]:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #devolver un misionero
+            if h['label'][0]>0 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[0]=aux[0]-1
+                aux[2]='D'
+                if (h['label'][0]==1 and h['label'][1]==1) or (h['label'][0]==3 or h['label'][1]==2):
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            #pasar dos misionero
+            if h['label'][0]<=1 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[0]=aux[0]+2
+                aux[2]='I'
+                if (h['label'][0]==1 and h['label'][1]!=2):
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                if (h['label'][1]==1 or h['label'][1]==2) :
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+
+                    
+            #devolver dos misionero
+            if h['label'][0]>=2 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[0]=aux[0]-2
+                aux[2]='D'
+                if (h['label'][1]==1 or h['label'][1]==2):
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            #pasar un misionero y un canibal
+            if h['label'][0]<3 and h['label'][1]<3 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[0]=aux[0]+1
+                aux[1]=aux[1]+1
+                aux[2]='I'
+                if (h['label'][0]==h['label'][1] and h['label'][0]<=2 and h['label'][1]<=2):
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+
+            #devolver un misionero y un canibal
+            if h['label'][0]>0 and h['label'][1]>0 and h['label'][2]=='I':
+                
+                aux=h['label'][:]
+                aux[0]=aux[0]-1
+                aux[1]=aux[1]-1
+                aux[2]='D'
+                if (h['label'][0]==h['label'][1] and h['label'][0]>=1 and h['label'][1]>=1):
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                    print('aqui si entra 2',h['FIN'])
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            
+                        
+        
+            for j in h['adyacentes']:
+                if self.in_graph_cannibal(j['label']):
+                    continue
+                else:
+                    self.cannibal['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False})
+
+            for i in self.cannibal['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_cannibal_r(i)    
