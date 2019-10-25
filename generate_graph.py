@@ -151,7 +151,7 @@ class generate_graph:
                 for i in h['adyacentes']:
                     print('          adyacentes: ', i['label'] ,i['FIN'])
     
-            with open('cannibal.json', 'a') as outfile:
+            with open('cannibal.json', 'w') as outfile:
                 json.dump(self.cannibal, outfile)
                 
                 

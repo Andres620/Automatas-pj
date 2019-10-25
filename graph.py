@@ -10,5 +10,5 @@ from heapq import heappop, heappush
 class graph:
     def __init__(self,gr):
         self.graph=gr
-        
+
     
