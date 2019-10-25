@@ -6,7 +6,6 @@ Created on Thu Oct 24 18:30:54 2019
 """
 
 import pygame
-import random
 from pygame.locals import RESIZABLE
 import sys
 
@@ -25,6 +24,7 @@ class GUI:
         self.screen=pygame.display.set_mode((self.sWIDTH, self.sHEIGHT),RESIZABLE)
         self.screen.fill((211, 200, 227))
         self.font = pygame.font.SysFont("Arial", 12)
+        self.paintLines()
         x=0
         while True:
             for event in pygame.event.get():
@@ -40,29 +40,20 @@ class GUI:
             
     def paint(self,graph):
         if not graph is None:
-            x=0
-            for h in graph:
-                x=random.randint(10, 1100)
-                y=random.randint(10, 500)
-                pygame.draw.circle(self.screen, (238, 241, 9),(x,y), 10)
+            for h in graph.graph:
+                pygame.draw.circle(self.screen, (238, 241, 9),(h['x'],h['y']), 10)
                 textID = self.font.render("{}".format(h['label']), 0, (0, 0, 0))
-                self.screen.blit(textID, (x-20,y-10))
+                self.screen.blit(textID, (h['x']-20,h['y']-10))
                 pygame.display.flip()
                 
     def paintLines(self):
-         for h in self.graph:
+         for h in self.graph.graph:
+            x1=h['x']
+            y1=h['y']
             for j in h['adyacentes']:
-                x1=h['posX']+20
-                y1=h['posY']+20
-                x2=self.graph.returnPlace(j['label'])['posX']+20
-                y2=self.graph.returnPlace(j['label'])['posY']+20
-                if not j['obstruction']:
-                    pygame.draw.line(self.screen,(26,8,242),(x1,y1),(x2,y2),5)
-                else:
-                    pygame.draw.line(self.screen,(200, 0, 0),(x1,y1),(x2,y2),5)
-                    avgPosX,avgPosY=self.graph.midPoint(x1,y1,x2,y2)
-                    self.screen.blit(self.deadDonkey,(avgPosX,avgPosY-30))
-                    pygame.display.flip()
+                x2,y2=self.graph.returnPosAdy(j)
+                pygame.draw.line(self.screen,(241, 129, 9),(x1,y1),(x2,y2),2)
+                pygame.display.flip()
          pygame.display.flip()
                 
                 

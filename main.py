@@ -6,21 +6,22 @@ Created on Sun Oct 20 15:08:08 2019
 """
 import json
 from GUI import GUI
+from graph import graph
 from generate_graph import generate_graph
 def main():
 
     oveja = {}
     gr=generate_graph(oveja)
-    gr.generate_cannibal()
-    #gr.generate_sheep()
+    #gr.generate_cannibal()
+    gr.generate_sheep()
     
-    with open('cannibal.json') as file:
+    with open('oveja.json') as file:
         data =json.load(file)
         
-    graph=data['graph']
-    
-    print('ijole ',graph)
-    gui=GUI(graph)
+    t=data['graph']
+    g=graph(t)
+    print('ijole ',g)
+    gui=GUI(g)
 
     
     gui.window()

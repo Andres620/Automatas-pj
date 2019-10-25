@@ -11,4 +11,7 @@ class graph:
     def __init__(self,gr):
         self.graph=gr
 
-    
+    def returnPosAdy(self,aux): 
+        for h in self.graph:
+            if h['label']==aux['label']:
+                return h['x'],h['y']

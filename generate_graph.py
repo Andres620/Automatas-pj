@@ -5,6 +5,7 @@ Created on Sun Oct 20 18:56:15 2019
 @author: ayuwoki
 """
 import json
+import random
 class generate_graph:
     
     def __init__(self,ov):
@@ -32,11 +33,11 @@ class generate_graph:
             self.oveja['estado_aceptacion'].append([1,1,1,1])
         
             self.oveja['graph'].append({'label':[0,0,0,0],'FIN':False,
-                                   'adyacentes':[], 'done':True})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
             
             self.generate_sheep_r(self.oveja['graph'][0])
     
-            with open('oveja.json', 'a') as outfile:
+            with open('oveja.json', 'w') as outfile:
                 json.dump(self.oveja, outfile)
                 
     def generate_sheep_r(self,h):
@@ -125,7 +126,7 @@ class generate_graph:
                     continue
                 else:
                     self.oveja['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False})
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
 
             for i in self.oveja['graph']:
                 if not i['done']:
@@ -142,7 +143,7 @@ class generate_graph:
             self.cannibal['estado_aceptacion'].append([3,3,'I'])
         
             self.cannibal['graph'].append({'label':[0,0,'D'],'FIN':False,
-                                   'adyacentes':[], 'done':True})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
             
             self.generate_cannibal_r(self.cannibal['graph'][0])
             
@@ -275,7 +276,7 @@ class generate_graph:
                     continue
                 else:
                     self.cannibal['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False})
+                                   'adyacentes':[], 'done': False,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
 
             for i in self.cannibal['graph']:
                 if not i['done']:
