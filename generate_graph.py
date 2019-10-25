@@ -11,6 +11,7 @@ class generate_graph:
     def __init__(self,ov):
         self.oveja=ov
         self.cannibal=ov
+        self.family=ov
         
     def in_graph_sheep(self,x):
         for h in self.oveja['graph']:
@@ -20,6 +21,12 @@ class generate_graph:
     
     def in_graph_cannibal(self,x):
         for h in self.cannibal['graph']:
+            if x==h['label']:
+                return True
+        return False
+
+    def in_graph_family(self,x):
+        for h in self.family['graph']:
             if x==h['label']:
                 return True
         return False
@@ -283,3 +290,338 @@ class generate_graph:
                     i['done']=True
                     if not i['FIN']:
                         self.generate_cannibal_r(i)    
+                        
+                        
+    def generate_family(self):
+            self.tiempo = 30
+            self.family['estado_inicial'] =[]
+            self.family['estado_aceptacion'] =[]
+            self.family['graph']=[]
+            self.family['transiciones'] = []
+            self.family['estado_inicial'].append([30,'D','D','D','D','D','D'])
+            self.family['estado_aceptacion'].append(['x','I','I','I','I','I','I'])
+        
+            self.family['graph'].append({'label':[30,'D','D','D','D','D','D'],'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_family_r(self.family['graph'][0])
+            
+            for h in self.family['graph']:
+                print('Label: ', h['label'], h['FIN'])
+                for i in h['adyacentes']:
+                    print('          adyacentes: ', i['label'] ,i['FIN'])
+    
+            with open('family.json', 'w') as outfile:
+                json.dump(self.family, outfile)
+                
+                
+                
+    def generate_family_r(self,h):
+            print('what?', h,'\n')
+            aux=[]
+            p=0    
+            #condicion de escape
+            for k in  self.family['graph']:
+                for l in k['label']:
+                    if p>0:
+                        aux.append(l)
+                    p+=1
+                if aux==['I','I','I','I','I','I']:
+                    return
+        
+            #pasar A
+            if (h['label'][1]=='D' and h['label'][6]=='D') or (h['label'][1]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-1
+                if h['label'][5] == 'D':
+                    aux[6] = 'I'
+                    aux[1] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[1] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #pasar B
+            if (h['label'][2]=='D' and h['label'][6]=='D') or (h['label'][2]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-3
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[2] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[2] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #pasar c
+            if (h['label'][3]=='D' and h['label'][6]=='D') or (h['label'][3]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-6
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[3] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[3] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+                
+            #pasar D
+            if (h['label'][4]=='D' and h['label'][6]=='D') or (h['label'][4]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-8
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[4] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[4] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            
+            #pasar E
+            if (h['label'][5]=='D' and h['label'][6]=='D') or (h['label'][5]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]-12
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[5] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[5] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            
+            #pasar AB
+            if (h['label'][1]=='D' and h['label'][2]=='D' and h['label'][6]=='D') or (h['label'][1]=='I' and h['label'][2]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-3
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[1] = 'I'
+                    aux[2] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[1] = 'D'
+                    aux[2] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                     
+             #pasar AC
+            if (h['label'][1]=='D' and h['label'][3]=='D' and h['label'][6]=='D') or (h['label'][1]=='I' and h['label'][3]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-6
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[1] = 'I'
+                    aux[3] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[1] = 'D'
+                    aux[3] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+
+            #pasar AD
+            if (h['label'][1]=='D' and h['label'][4]=='D' and h['label'][6]=='D') or (h['label'][1]=='I' and h['label'][5]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-8
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[1] = 'I'
+                    aux[4] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[1] = 'D'
+                    aux[4] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                     
+            #pasar AE
+            if (h['label'][1]=='D' and h['label'][5]=='D' and h['label'][6]=='D') or (h['label'][1]=='I' and h['label'][5]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-12
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[1] = 'I'
+                    aux[5] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[1] = 'D'
+                    aux[5] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                     
+            #pasar BC
+            if (h['label'][2]=='D' and h['label'][3]=='D' and h['label'][6]=='D') or (h['label'][2]=='I' and h['label'][3]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-6
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[1] = 'I'
+                    aux[3] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[1] = 'D'
+                    aux[3] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                     
+            #pasar BD
+            if (h['label'][2]=='D' and h['label'][4]=='D' and h['label'][6]=='D') or (h['label'][2]=='I' and h['label'][4]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-8
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[2] = 'I'
+                    aux[4] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[2] = 'D'
+                    aux[4] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+        
+        
+            #pasar BE
+            if (h['label'][2]=='D' and h['label'][5]=='D' and h['label'][6]=='D') or (h['label'][2]=='I' and h['label'][5]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-12
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[2] = 'I'
+                    aux[5] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[2] = 'D'
+                    aux[5] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+        
+            #pasar CD
+            if (h['label'][3]=='D' and h['label'][4]=='D' and h['label'][6]=='D') or (h['label'][3]=='I' and h['label'][4]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-8
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[3] = 'I'
+                    aux[4] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[3] = 'D'
+                    aux[4] = 'D'
+                    
+                if aux[0] > 0 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                     
+            #pasar CE
+            if (h['label'][3]=='D' and h['label'][5]=='D' and h['label'][6]=='D') or (h['label'][3]=='I' and h['label'][5]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-12
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[3] = 'I'
+                    aux[5] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[3] = 'D'
+                    aux[5] = 'D'
+                    
+                if aux[0] < 12 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                     
+            #pasar DE
+            if (h['label'][4]=='D' and h['label'][5]=='D' and h['label'][6]=='D') or (h['label'][4]=='I' and h['label'][5]=='I' and h['label'][6] == 'I'):
+                aux=h['label'][:]
+                aux[0]=aux[0]-12
+                if h['label'][6] == 'D':
+                    aux[6] = 'I'
+                    aux[4] = 'I'
+                    aux[5] = 'I'
+                else:
+                    aux[6] = 'D'
+                    aux[4] = 'D'
+                    aux[5] = 'D'
+                    
+                if aux[0] < 12 :
+                     h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+                else:
+                     h['adyacentes'].append({'label':aux , 'FIN':True})
+                     
+                     
+                     
+                     
+        
+            for j in h['adyacentes']:
+                if self.in_graph_family(j['label']):
+                    continue
+                else:
+                    self.family['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.family['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_family_r(i)    
+                
