@@ -14,9 +14,9 @@ def main():
     gr=generate_graph(oveja)
     #gr.generate_cannibal()
     #gr.generate_sheep()
-    gr.generate_family()
+    gr.generate_knight()
     
-    with open('family.json') as file:
+    with open('knight.json') as file:
         data =json.load(file)
         
     t=data['graph']

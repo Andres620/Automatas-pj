@@ -11,6 +11,7 @@ class generate_graph:
     def __init__(self,ov):
         self.oveja=ov
         self.cannibal=ov
+        self.knight=ov
         self.family=ov
         
     def in_graph_sheep(self,x):
@@ -21,6 +22,12 @@ class generate_graph:
     
     def in_graph_cannibal(self,x):
         for h in self.cannibal['graph']:
+            if x==h['label']:
+                return True
+        return False
+    
+    def in_graph_knight(self,x):
+        for h in self.knight['graph']:
             if x==h['label']:
                 return True
         return False
@@ -291,8 +298,133 @@ class generate_graph:
                     if not i['FIN']:
                         self.generate_cannibal_r(i)    
                         
+        
+    def generate_knight(self):
+            self.knight['estado_inicial'] =[]
+            self.knight['estado_aceptacion'] =[]
+            self.knight['graph']=[]
+            self.knight['transiciones'] = []
+            self.knight['estado_inicial'].append([0,0,0,0])
+            self.knight['estado_aceptacion'].append([1,1,1,1])
+        
+            self.knight['graph'].append({'label':[0,0,0,0],'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_knight_r(self.oveja['graph'][0])
+    
+            with open('knight.json', 'w') as outfile:
+                json.dump(self.knight, outfile)
+                
+    def generate_knight_r(self,h):
+            print('what?', h,'\n')
+            
+            #condicion de escape
+            for k in  self.knight['graph']:
+                if k['label']==[1,1,1,1]:
+                    return
+        
+            #pasar arrogante
+            if h['label'][0]==0:
+                if h['label'][1]==h['label'][2] or h['label'][1]==h['label'][3]:
+                    aux=h['label'][:]
+                    aux[0]=1
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+            #pasar un valiente C
+            if h['label'][2]==0:
+                if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][3]:
+                    aux=h['label'][:]
+                    aux[2]=1
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar otro valiente D
+            if h['label'][3]==0:
+                if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][2]:
+                    aux=h['label'][:]
+                    aux[3]=1
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+ 
+           #pasar valiente C con vago
+            if h['label'][1]==0 and h['label'][2]==0:
+                aux=h['label'][:]
+                aux[1]=1
+                aux[2]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar valiente D con vago
+            if h['label'][0]==0 and h['label'][3]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[3]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar C con D
+            if h['label'][2]==0 and h['label'][3]==0:
+                if h['label'][1]==h['label'][0]:
+                    aux=h['label'][:]
+                    aux[2]=1
+                    aux[3]=1
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver arrogante
+            if h['label'][0]==1:
+                if h['label'][1]==h['label'][2] or h['label'][1]==h['label'][3]:
+                    aux=h['label'][:]
+                    aux[0]=0
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver valiente C
+            if h['label'][2]==1:
+                if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][3]:
+                    aux=h['label'][:]
+                    aux[2]=0
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver valiente D
+            if h['label'][3]==1:
+                if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][2]:
+                    aux=h['label'][:]
+                    aux[3]=0
+                    h['adyacentes'].append({'label':aux , 'FIN':False}) 
+                    
+            #devolver valiente C con vago
+            if h['label'][1]==1 and h['label'][2]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[2]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver valiente D con vago
+            if h['label'][1]==1 and h['label'][3]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[3]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver C con D
+            if h['label'][2]==1 and h['label'][3]==1:
+                if h['label'][1]==h['label'][0]:
+                    aux=h['label'][:]
+                    aux[2]=0
+                    aux[3]=0
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+        
+            for j in h['adyacentes']:
+                if self.in_graph_knight(j['label']):
+                    continue
+                else:
+                    self.knight['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.oveja['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_knight_r(i)
                         
-    def generate_family(self):
+        
+                        
+                        
+    '''def generate_family(self):
             self.tiempo = 30
             self.family['estado_inicial'] =[]
             self.family['estado_aceptacion'] =[]
@@ -623,5 +755,4 @@ class generate_graph:
                 if not i['done']:
                     i['done']=True
                     if not i['FIN']:
-                        self.generate_family_r(i)    
-                
+                        self.generate_family_r(i)'''    
