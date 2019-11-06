@@ -15,6 +15,14 @@ class generate_graph:
         self.family=ov
         self.horse=ov
         self.boy=ov
+        self.police = ov
+        self.people = ov
+        
+    def in_graph_people(self,x):
+        for h in self.people['graph']:
+            if x==h['label']:
+                return True
+        return False    
         
     def in_graph_sheep(self,x):
         for h in self.oveja['graph']:
@@ -23,6 +31,12 @@ class generate_graph:
         return False
     
     def in_graph_cannibal(self,x):
+        for h in self.cannibal['graph']:
+            if x==h['label']:
+                return True
+        return False
+    
+    def in_graph_police(self,x):
         for h in self.cannibal['graph']:
             if x==h['label']:
                 return True
@@ -553,7 +567,7 @@ class generate_graph:
             
             #condicion de escape
             for k in  self.family['graph']:
-                if k['label']==[1,1,1,1]:
+                if k['label']==[1,1,1,1,1]:
                     return
         
             #pasar A
@@ -579,13 +593,27 @@ class generate_graph:
                 aux[3]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
  
-           #pasar AB
-            if h['label'][0]==0 and h['label'][1]==0:
+           #pasar CD 
+            if h['label'][2]==0 and h['label'][3]==0:
                 aux=h['label'][:]
-                aux[0]=1
-                aux[1]=1
+                aux[2]=1
+                aux[3]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
                 
+            #pasar CE
+            if h['label'][2]==0 and h['label'][4]==0:
+                aux=h['label'][:]
+                aux[2]=1
+                aux[4]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #pasar DE
+            if h['label'][3]==0 and h['label'][4]==0:
+                aux=h['label'][:]
+                aux[3]=1
+                aux[4]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
             #devolver A
             if h['label'][0]==1:
                 aux=h['label'][:]
@@ -609,29 +637,377 @@ class generate_graph:
                 aux[3]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
  
-           #devolver AB
-            if h['label'][0]==1 and h['label'][1]==1:
+            #devolver CD 
+            if h['label'][2]==1 and h['label'][3]==1:
                 aux=h['label'][:]
-                aux[0]=0
-                aux[1]=0
+                aux[2]=0
+                aux[3]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
-            
+                
+            #devolver CE
+            if h['label'][2]==1 and h['label'][4]==1:
+                aux=h['label'][:]
+                aux[2]=0
+                aux[4]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver DE
+            if h['label'][3]==1 and h['label'][4]==1:
+                aux=h['label'][:]
+                aux[3]=0
+                aux[4]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
         
             for j in h['adyacentes']:
-                if self.in_graph_boy(j['label']):
+                if self.in_graph_family(j['label']):
                     continue
                 else:
-                    self.boy['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                    self.family['graph'].append({'label':j['label'],'FIN':j['FIN'],
                                    'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
 
-            for i in self.boy['graph']:
+            for i in self.family['graph']:
                 if not i['done']:
                     i['done']=True
                     if not i['FIN']:
-                        self.generate_boy_r(i)
+                        self.generate_family_r(i)
                         
+    def generate_police(self):
+            self.police['estado_inicial'] =[]
+            self.police['estado_aceptacion'] =[]
+            self.police['graph']=[]
+            self.police['transiciones'] = []
+            self.police['estado_inicial'].append([0,0,'D'])
+            self.police['estado_aceptacion'].append([3,3,'I'])
+        
+            self.police['graph'].append({'label':[0,0,'D'],'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_police_r(self.police['graph'][0])
+            
+            for h in self.police['graph']:
+                print('Label: ', h['label'], h['FIN'])
+                for i in h['adyacentes']:
+                    print('          adyacentes: ', i['label'] ,i['FIN'])
+    
+            with open('police.json', 'w') as outfile:
+                json.dump(self.police, outfile)
+                
+                
+    def generate_police_r(self,h):
+            print('what?', h,'\n')
+            
+            #condicion de escape
+            for k in  self.police['graph']:
+                if k['label']==[3,3,'I']:
+                    return
+        
+            #pasar un ladron
+            if h['label'][1]<3 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[1]=aux[1]+1
+                aux[2]="I"
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #devolver un ladron
+            if h['label'][1]>0 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[1]=aux[1]-1
+                aux[2]="D"
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #pasar dos ladrones
+            if h['label'][1]<=1 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[1]=aux[1]+2
+                aux[2]='I'
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #devolver dos ladrones
+            if h['label'][1]>=2 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[1]=aux[1]-2
+                aux[2]='D'
+                if h['label'][0]==0 or h['label'][0]==3:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                              
+            #pasar un policia
+            if h['label'][0]<3 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[0]=aux[0]+1
+                aux[2]='I'
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                    
+            #devolver un policia
+            if h['label'][0]>0 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[0]=aux[0]-1
+                aux[2]='D'
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar dos policias
+            if h['label'][0]<=1 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[0]=aux[0]+2
+                aux[2]='I'
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+
+                    
+            #devolver dos policias
+            if h['label'][0]>=2 and h['label'][2]=='I':
+                aux=h['label'][:]
+                aux[0]=aux[0]-2
+                aux[2]='D'
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar un policia y un ladron
+            if h['label'][0]<3 and h['label'][1]<3 and h['label'][2]=='D':
+                aux=h['label'][:]
+                aux[0]=aux[0]+1
+                aux[1]=aux[1]+1
+                aux[2]='I'
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+
+            #devolver un policia y un ladron
+            if h['label'][0]>0 and h['label'][1]>0 and h['label'][2]=='I':
+                
+                aux=h['label'][:]
+                aux[0]=aux[0]-1
+                aux[1]=aux[1]-1
+                aux[2]='D'
+                if (aux[0]!=0 and aux[0]< aux[1]) or (aux[0]!=3 and aux[0]> aux[1]):
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                else:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            
                         
+        
+            for j in h['adyacentes']:
+                if self.in_graph_police(j['label']):
+                    continue
+                else:
+                    self.police['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.police['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_police_r(i)
+    
                         
+    def generate_people(self):
+            self.people['estado_inicial'] =[]
+            self.people['estado_aceptacion'] =[]
+            self.people['graph']=[]
+            self.people['transiciones'] = []
+            self.people['estado_inicial'].append([0,0,0,0,0,0])
+            self.people['estado_aceptacion'].append([1,1,1,1,1,1])
+        
+            self.people['graph'].append({'label':[0,0,0,0,0,0],'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_people_r(self.boy['graph'][0])
+    
+            with open('people.json', 'w') as outfile:
+                json.dump(self.people, outfile)
+                
+    def generate_people_r(self,h):
+            print('what?', h,'\n')
+            
+            #condicion de escape
+            for k in  self.people['graph']:
+                if k['label']==[1,1,1,1,1,1]:
+                    return
+                
+            #pasar 1
+            if h['label'][0]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            #pasar 2
+            if h['label'][1]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[1]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar 3
+            if h['label'][2]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[2]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #pasar 4
+            if h['label'][3]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[3]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #pasar 5
+            if h['label'][4]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[4]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})    
+            
+            #devolver 1
+            if h['label'][0]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver 2
+            if h['label'][1]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver 3
+            if h['label'][2]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[2]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver 4 
+            if h['label'][3]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[3]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver 5
+            if h['label'][4]==1 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[4]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #pasar 1 con 3
+            if h['label'][0]==0 and h['label'][2]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[2]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+           #pasar 1 con 4
+            if h['label'][0]==0 and h['label'][3]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[3]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+             
+          #pasar 2 con 4
+            if h['label'][1]==0 and h['label'][3]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[1]=1
+                aux[3]=1
+                aux[5]=1
+                
+                h['adyacentes'].append({'label':aux , 'FIN':False})    
+                
+         #pasar 2 con 5
+            if h['label'][1]==0 and h['label'][4]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[1]=1
+                aux[4]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False}) 
+                
+          #pasar 3 con 5
+            if h['label'][2]==0 and h['label'][4]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[2]=1
+                aux[4]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})   
+           
+           #devolver 1 con 3
+            if h['label'][0]==1 and h['label'][2]==1 and h['label'][5]==1: 
+                aux=h['label'][:]
+                aux[0]=0
+                aux[2]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+           #devolver 1 con 4
+            if h['label'][0]==1 and h['label'][3]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[3]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+             
+          #devolver 2 con 4
+            if h['label'][1]==1 and h['label'][3]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[3]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})    
+                
+         #devolver 2 con 5
+            if h['label'][1]==1 and h['label'][4]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[4]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False}) 
+                
+          #devolver 3 con 5
+            if h['label'][2]==1 and h['label'][4]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[2]=0
+                aux[4]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False}) 
+        
+            for j in h['adyacentes']:
+                if self.in_graph_people(j['label']):
+                    continue
+                else:
+                    self.people['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.people['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_people_r(i)        
                         
                         
         
