@@ -13,6 +13,8 @@ class generate_graph:
         self.cannibal=ov
         self.knight=ov
         self.family=ov
+        self.horse=ov
+        self.boy=ov
         
     def in_graph_sheep(self,x):
         for h in self.oveja['graph']:
@@ -28,6 +30,17 @@ class generate_graph:
     
     def in_graph_knight(self,x):
         for h in self.knight['graph']:
+            if x==h['label']:
+                return True
+        return False
+    
+    def in_graph_boy(self,x):
+        for h in self.boy['graph']:
+            if x==h['label']:
+                return True
+        return False
+    def in_graph_horse(self,x):
+        for h in self.horse['graph']:
             if x==h['label']:
                 return True
         return False
@@ -310,7 +323,7 @@ class generate_graph:
             self.knight['graph'].append({'label':[0,0,0,0],'FIN':False,
                                    'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
             
-            self.generate_knight_r(self.oveja['graph'][0])
+            self.generate_knight_r(self.knight['graph'][0])
     
             with open('knight.json', 'w') as outfile:
                 json.dump(self.knight, outfile)
@@ -353,7 +366,7 @@ class generate_graph:
             #pasar valiente D con vago
             if h['label'][0]==0 and h['label'][3]==0:
                 aux=h['label'][:]
-                aux[0]=1
+                aux[1]=1
                 aux[3]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
@@ -415,13 +428,424 @@ class generate_graph:
                     self.knight['graph'].append({'label':j['label'],'FIN':j['FIN'],
                                    'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
 
-            for i in self.oveja['graph']:
+            for i in self.knight['graph']:
                 if not i['done']:
                     i['done']=True
                     if not i['FIN']:
                         self.generate_knight_r(i)
                         
+    def generate_boy(self):
+            self.boy['estado_inicial'] =[]
+            self.boy['estado_aceptacion'] =[]
+            self.boy['graph']=[]
+            self.boy['transiciones'] = []
+            self.boy['estado_inicial'].append([0,0,0,0])
+            self.boy['estado_aceptacion'].append([1,1,1,1])
         
+            self.boy['graph'].append({'label':[0,0,0,0],'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_boy_r(self.boy['graph'][0])
+    
+            with open('boy.json', 'w') as outfile:
+                json.dump(self.boy, outfile)
+                
+    def generate_boy_r(self,h):
+            print('what?', h,'\n')
+            
+            #condicion de escape
+            for k in  self.boy['graph']:
+                if k['label']==[1,1,1,1]:
+                    return
+        
+            #pasar A
+            if h['label'][0]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            #pasar B
+            if h['label'][1]==0:
+                aux=h['label'][:]
+                aux[1]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar C
+            if h['label'][2]==0:
+                aux=h['label'][:]
+                aux[2]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+        
+            #pasar D
+            if h['label'][3]==0:
+                aux=h['label'][:]
+                aux[3]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+ 
+           #pasar AB
+            if h['label'][0]==0 and h['label'][1]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[1]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver A
+            if h['label'][0]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            #devolver B
+            if h['label'][1]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver C
+            if h['label'][2]==1:
+                aux=h['label'][:]
+                aux[2]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+        
+            #devolver D
+            if h['label'][3]==1:
+                aux=h['label'][:]
+                aux[3]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+ 
+           #devolver AB
+            if h['label'][0]==1 and h['label'][1]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[1]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+        
+            for j in h['adyacentes']:
+                if self.in_graph_boy(j['label']):
+                    continue
+                else:
+                    self.boy['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.boy['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_boy_r(i)
+            
+    def generate_family(self):
+            self.family['estado_inicial'] =[]
+            self.family['estado_aceptacion'] =[]
+            self.family['graph']=[]
+            self.family['transiciones'] = []
+            self.family['estado_inicial'].append([0,0,0,0,0])
+            self.family['estado_aceptacion'].append([1,1,1,1,1])
+        
+            self.family['graph'].append({'label':[0,0,0,0,0],'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_family_r(self.family['graph'][0])
+    
+            with open('family.json', 'w') as outfile:
+                json.dump(self.family, outfile)
+                
+    def generate_family_r(self,h):
+            print('what?', h,'\n')
+            
+            #condicion de escape
+            for k in  self.family['graph']:
+                if k['label']==[1,1,1,1]:
+                    return
+        
+            #pasar A
+            if h['label'][0]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            #pasar B
+            if h['label'][1]==0:
+                aux=h['label'][:]
+                aux[1]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar C
+            if h['label'][2]==0:
+                aux=h['label'][:]
+                aux[2]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+        
+            #pasar D
+            if h['label'][3]==0:
+                aux=h['label'][:]
+                aux[3]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+ 
+           #pasar AB
+            if h['label'][0]==0 and h['label'][1]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[1]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver A
+            if h['label'][0]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            #devolver B
+            if h['label'][1]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver C
+            if h['label'][2]==1:
+                aux=h['label'][:]
+                aux[2]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+        
+            #devolver D
+            if h['label'][3]==1:
+                aux=h['label'][:]
+                aux[3]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+ 
+           #devolver AB
+            if h['label'][0]==1 and h['label'][1]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[1]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+        
+            for j in h['adyacentes']:
+                if self.in_graph_boy(j['label']):
+                    continue
+                else:
+                    self.boy['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.boy['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_boy_r(i)
+                        
+                        
+                        
+                        
+                        
+        
+    '''def generate_horse(self):
+            self.horse['estado_inicial'] =[]
+            self.horse['estado_aceptacion'] =[]
+            self.horse['graph']=[]
+            self.horse['transiciones'] = []
+            self.horse['estado_inicial'].append([[0,0,0,0],[0,0,0,0],[0,0,0,0],[-1,0,0,-1],[-1,1,3,-1]])
+            self.horse['estado_aceptacion'].append([[1,1,1,1],[1,1,1,1],[1,1,1,1],[-1,1,1,-1]])
+        
+            self.horse['graph'].append({'label':[[0,0,0,0],[0,0,0,0],[0,0,0,0],[-1,0,0,-1],[-1,1,3,-1]] ,'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_horse_r(self.horse['graph'][0])
+    
+            with open('horse.json', 'w') as outfile:
+                json.dump(self.horse, outfile)
+                        
+    def generate_horse_r(self,h):
+            
+            #condicion de escape
+            for k in  self.horse['graph']:
+                if k['label'][0]==[1,1,1,1] and k['label'][1]==[1,1,1,1] and k['label'][2]==[1,1,1,1] and k['label'][3]==[-1,1,1,-1]:
+                    return
+        
+            i=h['label'][4][1]
+            j=h['label'][4][2]
+            #izquierda arriba
+            if i>=1 and j>=2 and h['label'][i-1][j-2]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]-1
+                aux[4][2]=aux[4][2]-2
+                i=i-1
+                j=j-2
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #izquierda abajo
+            if i<=2 and j>=2 and h['label'][i+1][j-2]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]+1
+                aux[4][2]=aux[4][2]-2
+                i=i+1
+                j=j-2
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #erecha arriba
+            if i>=1 and j<=1 and h['label'][i-1][j+2]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]-1
+                aux[4][2]=aux[4][2]+2
+                i=i-1
+                j=j+2
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #derecha abajo
+            if i<=2 and j<=1 and h['label'][i+1][j+2]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]+1
+                aux[4][2]=aux[4][2]+2
+                i=i+1
+                j=j+2
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #abajo derecha 1
+            if i==0 and j<=2 and h['label'][i+2][j+1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]+2
+                aux[4][2]=aux[4][2]+1
+                i=i+2
+                j=j+1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            #abajo derecha 2
+            if i==1 and j==1 and h['label'][i+2][j+1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]+2
+                aux[4][2]=aux[4][2]+1
+                i=i+2
+                j=j+1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            #abajo izquierda 1
+            if i==0 and (j>=1 and j<=3) and h['label'][i+2][j-1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]+2
+                aux[4][2]=aux[4][2]-1
+                i=i+2
+                j=j-1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            #abajo izquierda 2
+            if i==1 and j==2 and h['label'][i+2][j-1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]+2
+                aux[4][2]=aux[4][2]-1
+                i=i+2
+                j=j-1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #arriba derecha 1
+            if i==2 and j<=2 and h['label'][i-2][j+1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]-2
+                aux[4][2]=aux[4][2]+1
+                i=i-2
+                j=j+1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            #arriba derecha 2
+            if i==3 and (j==1 or j==2) and h['label'][-+2][j+1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]-2
+                aux[4][2]=aux[4][2]+1
+                i=i-2
+                j=j+1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+            #arriba izquierda 1
+            if i==2 and (j>=1 and j<=3) and h['label'][i-2][j-1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]-2
+                aux[4][2]=aux[4][2]-1
+                i=i-2
+                j=j-1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+            
+            #arriba izquierda 2
+            if i==3 and (j==1 or j==2) and h['label'][i-2][j-1]!=-1:
+                aux=h['label'][:]
+                aux[i][j]=1
+                aux[4][1]=aux[4][1]-2
+                aux[4][2]=aux[4][2]-1
+                i=i-2
+                j=j-1
+                aux[i][j]=1
+                if h['label'][i][j]==0:
+                    h['adyacentes'].append({'label':aux , 'FIN':False})
+                if h['label'][i][j]==1:
+                    h['adyacentes'].append({'label':aux , 'FIN':True})
+                    
+ 
+        
+            for j in h['adyacentes']:
+                if self.in_graph_horse(j['label']):
+                    print('entrada 1')
+                    continue
+                else:
+                    print('entrada 2')
+                    self.horse['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.horse['graph']:
+                print('entrada 3')
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        print('entrada 4')
+                        self.generate_horse_r(i)'''
                         
                         
     '''def generate_family(self):
