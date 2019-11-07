@@ -14,13 +14,15 @@ def main():
     gr=generate_graph(oveja)
     #gr.generate_cannibal()
     #gr.generate_sheep()
-    gr.generate_boy()
+    gr.generate_cannibal()
     
-    with open('boy.json') as file:
+    with open('cannibal.json') as file:
         data =json.load(file)
         
     t=data['graph']
-    g=graph(t)
+    s=data['estado_inicial']
+    u=data['estado_aceptacion']
+    g=graph(t,s,u)
     print('ijole ',g)
     gui=GUI(g)
 

@@ -42,6 +42,10 @@ class GUI:
         if not graph is None:
             for h in graph.graph:
                 pygame.draw.circle(self.screen, (238, 241, 9),(h['x'],h['y']), 10)
+                if h['label']==graph.estado_inicial[0]:
+                    pygame.draw.circle(self.screen, (9, 241, 27),(h['x'],h['y']), 10)
+                if h['label']==graph.estado_aceptacion[0]:
+                    pygame.draw.circle(self.screen, (241, 9, 9),(h['x'],h['y']), 10)
                 textID = self.font.render("{}".format(h['label']), 0, (0, 0, 0))
                 self.screen.blit(textID, (h['x']-20,h['y']-10))
                 pygame.display.flip()
@@ -54,6 +58,7 @@ class GUI:
                 x2,y2=self.graph.returnPosAdy(j)
                 pygame.draw.line(self.screen,(241, 129, 9),(x1,y1),(x2,y2),2)
                 pygame.display.flip()
+            
          pygame.display.flip()
                 
                 
