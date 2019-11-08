@@ -13,8 +13,8 @@ class GUI:
     
     def __init__(self,graph):
         self.graph=graph
-        self.sWIDTH = 1180    #screen width
-        self.sHEIGHT = 600    #screen height
+        self.sWIDTH = 1500 #screen width
+        self.sHEIGHT = 780    #screen height
         self.font=None
         self.screen=None
     

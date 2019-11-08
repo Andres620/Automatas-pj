@@ -82,7 +82,7 @@ class generate_graph:
             self.oveja['estado_aceptacion'].append([1,1,1,1])
         
             self.oveja['graph'].append({'label':[0,0,0,0],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_sheep_r(self.oveja['graph'][0])
     
@@ -175,7 +175,7 @@ class generate_graph:
                     continue
                 else:
                     self.oveja['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.oveja['graph']:
                 if not i['done']:
@@ -192,7 +192,7 @@ class generate_graph:
             self.cannibal['estado_aceptacion'].append([3,3,'I'])
         
             self.cannibal['graph'].append({'label':[0,0,'D'],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_cannibal_r(self.cannibal['graph'][0])
             
@@ -325,7 +325,7 @@ class generate_graph:
                     continue
                 else:
                     self.cannibal['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.cannibal['graph']:
                 if not i['done']:
@@ -343,7 +343,7 @@ class generate_graph:
             self.knight['estado_aceptacion'].append([1,1,1,1])
         
             self.knight['graph'].append({'label':[0,0,0,0],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_knight_r(self.knight['graph'][0])
     
@@ -448,7 +448,7 @@ class generate_graph:
                     continue
                 else:
                     self.knight['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.knight['graph']:
                 if not i['done']:
@@ -465,7 +465,7 @@ class generate_graph:
             self.boy['estado_aceptacion'].append([1,1,1,1,1])
         
             self.boy['graph'].append({'label':[0,0,0,0,0],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_boy_r(self.boy['graph'][0])
     
@@ -556,7 +556,7 @@ class generate_graph:
                     continue
                 else:
                     self.boy['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.boy['graph']:
                 if not i['done']:
@@ -573,7 +573,7 @@ class generate_graph:
             self.family['estado_aceptacion'].append([1,1,1,1,1,1])
         
             self.family['graph'].append({'label':[0,0,0,0,0,0],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_family_r(self.family['graph'][0])
     
@@ -695,7 +695,7 @@ class generate_graph:
                     continue
                 else:
                     self.family['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.family['graph']:
                 if not i['done']:
@@ -712,7 +712,7 @@ class generate_graph:
             self.police['estado_aceptacion'].append([3,3,'I'])
         
             self.police['graph'].append({'label':[0,0,'D'],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_police_r(self.police['graph'][0])
             
@@ -845,7 +845,7 @@ class generate_graph:
                     continue
                 else:
                     self.police['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.police['graph']:
                 if not i['done']:
@@ -863,7 +863,7 @@ class generate_graph:
             self.people['estado_aceptacion'].append([1,1,1,1,1,1])
         
             self.people['graph'].append({'label':[0,0,0,0,0,0],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_people_r(self.boy['graph'][0])
     
@@ -1033,7 +1033,7 @@ class generate_graph:
                     continue
                 else:
                     self.people['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.people['graph']:
                 if not i['done']:
@@ -1050,7 +1050,7 @@ class generate_graph:
             self.atleta['estado_aceptacion'].append([1,1,1,1,1,1,1])
         
             self.atleta['graph'].append({'label':[0,0,0,0,0,0,0],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
             
             self.generate_atleta_r(self.atleta['graph'][0])
     
@@ -1298,7 +1298,7 @@ class generate_graph:
                     continue
                 else:
                     self.atleta['graph'].append({'label':j['label'],'FIN':j['FIN'],
-                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1400),'y':random.randint(10, 740)})
 
             for i in self.atleta['graph']:
                 if not i['done']:
