@@ -11,8 +11,9 @@ import sys
 
 class GUI:
     
-    def __init__(self,graph):
+    def __init__(self,graph,gr):
         self.graph=graph
+        self.generate_graph=gr
         self.sWIDTH = 1180    #screen width
         self.sHEIGHT = 600    #screen height
         self.font=None
@@ -25,6 +26,7 @@ class GUI:
         self.screen.fill((211, 200, 227))
         self.font = pygame.font.SysFont("Arial", 12)
         self.paintLines()
+        self.paintPath()
         x=0
         while True:
             for event in pygame.event.get():
@@ -57,23 +59,27 @@ class GUI:
             for j in h['adyacentes']:
                 x2,y2=self.graph.returnPosAdy(j)
                 pygame.draw.line(self.screen,(241, 129, 9),(x1,y1),(x2,y2),2)
+                pygame.draw.circle(self.screen, (241, 9, 9),(x2,y2-10), 3)
                 pygame.display.flip()
             
          pygame.display.flip()
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+        
+    def paintPath(self):
+        aux=self.generate_graph.return_path_pos(self.graph)
+        for h in range(1,len(aux)):
+           pygame.draw.line(self.screen,(23, 48, 235),(aux[h-1][0],aux[h-1][1]),(aux[h][0],aux[h][1]),2)
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

@@ -14,17 +14,27 @@ def main():
     gr=generate_graph(oveja)
     #gr.generate_cannibal()
     #gr.generate_sheep()
-    gr.generate_cannibal()
+    gr.generate_sheep()
     
-    with open('cannibal.json') as file:
+    with open('oveja.json') as file:
         data =json.load(file)
         
     t=data['graph']
     s=data['estado_inicial']
     u=data['estado_aceptacion']
     g=graph(t,s,u)
-    print('ijole ',g)
-    gui=GUI(g)
+    
+    copyg=g
+    aux=gr.call_return_path(copyg,copyg.graph[0])
+    print('CAMINOOOO -----', aux)
+    for h in gr.path:
+        print('--',h,'\n')
+    aux=gr.return_path_pos(copyg)
+    print(aux)
+    print(aux[0][1])
+    
+    gui=GUI(g,gr)
+    
 
     
     gui.window()

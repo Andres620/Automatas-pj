@@ -15,7 +15,42 @@ class generate_graph:
         self.family=ov
         self.horse=ov
         self.boy=ov
+        self.path=[]
+       
+    def return_pos(self,x,graph):
+        for h in graph.graph:
+            if h['label']==x:
+                return h['x'],h['y']
+    def return_nodo(self,x,graph):
+        for h in graph.graph:
+            if h['label']==x:
+                return h
+    
+    def call_return_path(self,graph,node):
+        self.path.clear()
+        self.path.append(node['label'])
+        self.return_path(graph,node)
+    
+    def return_path_pos(self,graph):
+        aux=[]    
+        for h in self.path:
+            aux.append(self.return_pos(h,graph))
         
+        return aux
+    
+    def return_path(self,graph,node):
+            if graph.estado_aceptacion[0] in self.path:
+                return True
+            aux=self.return_nodo(node['label'],graph)
+            for j in aux['adyacentes'] :
+                if j['FIN'] is False:
+                    if j['label'] not in self.path:
+                        self.path.append(j['label']) 
+                    j['FIN']=True
+                    self.return_path(graph,j)
+                
+            
+    
     def in_graph_sheep(self,x):
         for h in self.oveja['graph']:
             if x==h['label']:
@@ -68,7 +103,6 @@ class generate_graph:
                 json.dump(self.oveja, outfile)
                 
     def generate_sheep_r(self,h):
-            print('what?', h,'\n')
             
             #condicion de escape
             for k in  self.oveja['graph']:
@@ -183,9 +217,7 @@ class generate_graph:
                 json.dump(self.cannibal, outfile)
                 
                 
-    def generate_cannibal_r(self,h):
-            print('what?', h,'\n')
-            
+    def generate_cannibal_r(self,h):      
             #condicion de escape
             for k in  self.cannibal['graph']:
                 if k['label']==[3,3,'I']:
@@ -317,10 +349,10 @@ class generate_graph:
             self.knight['estado_aceptacion'] =[]
             self.knight['graph']=[]
             self.knight['transiciones'] = []
-            self.knight['estado_inicial'].append([0,0,0,0])
-            self.knight['estado_aceptacion'].append([1,1,1,1])
+            self.knight['estado_inicial'].append([0,0,0,0,0])
+            self.knight['estado_aceptacion'].append([1,1,1,1,1])
         
-            self.knight['graph'].append({'label':[0,0,0,0],'FIN':False,
+            self.knight['graph'].append({'label':[0,0,0,0,0],'FIN':False,
                                    'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
             
             self.generate_knight_r(self.knight['graph'][0])
@@ -329,7 +361,6 @@ class generate_graph:
                 json.dump(self.knight, outfile)
                 
     def generate_knight_r(self,h):
-            print('what?', h,'\n')
             
             #condicion de escape
             for k in  self.knight['graph']:
@@ -337,88 +368,100 @@ class generate_graph:
                     return
         
             #pasar arrogante
-            if h['label'][0]==0:
+            if h['label'][0]==0 and h['label'][4]==0:
                 if h['label'][1]==h['label'][2] or h['label'][1]==h['label'][3]:
                     aux=h['label'][:]
                     aux[0]=1
+                    aux[4]=1
                     h['adyacentes'].append({'label':aux , 'FIN':False})
             #pasar un valiente C
-            if h['label'][2]==0:
+            if h['label'][2]==0 and h['label'][4]==0:
                 if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][3]:
                     aux=h['label'][:]
                     aux[2]=1
+                    aux[4]=1
                     h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #pasar otro valiente D
-            if h['label'][3]==0:
+            if h['label'][3]==0 and h['label'][4]==0:
                 if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][2]:
                     aux=h['label'][:]
                     aux[3]=1
+                    aux[4]=1
                     h['adyacentes'].append({'label':aux , 'FIN':False})
  
-           #pasar valiente C con vago
-            if h['label'][1]==0 and h['label'][2]==0:
+           #pasar valiente C con vago 
+            if h['label'][1]==0 and h['label'][2]==0 and h['label'][4]==0: 
                 aux=h['label'][:]
                 aux[1]=1
                 aux[2]=1
+                aux[4]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #pasar valiente D con vago
-            if h['label'][0]==0 and h['label'][3]==0:
+            if h['label'][0]==0 and h['label'][3]==0 and h['label'][4]==0: 
                 aux=h['label'][:]
                 aux[1]=1
                 aux[3]=1
+                aux[4]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #pasar C con D
-            if h['label'][2]==0 and h['label'][3]==0:
+            if h['label'][2]==0 and h['label'][3]==0 and h['label'][4]==0:
                 if h['label'][1]==h['label'][0]:
                     aux=h['label'][:]
                     aux[2]=1
                     aux[3]=1
+                    aux[4]=1
                     h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #devolver arrogante
-            if h['label'][0]==1:
+            if h['label'][0]==1 and h['label'][4]==1:
                 if h['label'][1]==h['label'][2] or h['label'][1]==h['label'][3]:
                     aux=h['label'][:]
                     aux[0]=0
+                    aux[4]=0
                     h['adyacentes'].append({'label':aux , 'FIN':False})
                 
             #devolver valiente C
-            if h['label'][2]==1:
+            if h['label'][2]==1 and h['label'][4]==1:
                 if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][3]:
                     aux=h['label'][:]
                     aux[2]=0
+                    aux[4]=0
                     h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #devolver valiente D
-            if h['label'][3]==1:
+            if h['label'][3]==1 and h['label'][4]==1:
                 if h['label'][1]==h['label'][0] or h['label'][1]==h['label'][2]:
                     aux=h['label'][:]
                     aux[3]=0
+                    aux[4]=0
                     h['adyacentes'].append({'label':aux , 'FIN':False}) 
                     
             #devolver valiente C con vago
-            if h['label'][1]==1 and h['label'][2]==1:
+            if h['label'][1]==1 and h['label'][2]==1 and h['label'][4]==1:
                 aux=h['label'][:]
                 aux[1]=0
                 aux[2]=0
+                aux[4]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #devolver valiente D con vago
-            if h['label'][1]==1 and h['label'][3]==1:
+            if h['label'][1]==1 and h['label'][3]==1 and h['label'][4]==1:
                 aux=h['label'][:]
                 aux[1]=0
                 aux[3]=0
+                aux[4]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
                 
             #devolver C con D
-            if h['label'][2]==1 and h['label'][3]==1:
+            if h['label'][2]==1 and h['label'][3]==1 and h['label'][4]==1:
                 if h['label'][1]==h['label'][0]:
                     aux=h['label'][:]
                     aux[2]=0
                     aux[3]=0
+                    aux[4]=0
                     h['adyacentes'].append({'label':aux , 'FIN':False})
         
             for j in h['adyacentes']:
@@ -451,7 +494,6 @@ class generate_graph:
                 json.dump(self.boy, outfile)
                 
     def generate_boy_r(self,h):
-            print('what?', h,'\n')
             
             #condicion de escape
             for k in  self.boy['graph']:
@@ -549,7 +591,6 @@ class generate_graph:
                 json.dump(self.family, outfile)
                 
     def generate_family_r(self,h):
-            print('what?', h,'\n')
             
             #condicion de escape
             for k in  self.family['graph']:
