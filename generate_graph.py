@@ -225,7 +225,7 @@ class generate_graph:
             self.cannibal['estado_aceptacion'].append([3,3,'I'])
         
             self.cannibal['graph'].append({'label':[0,0,'D'],'FIN':False,
-                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1400),'y':random.randint(10, 740)})
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
             
             self.generate_cannibal_r(self.cannibal['graph'][0])
             
