@@ -21,7 +21,7 @@ class GUI:
     
     def window(self):
         pygame.init()
-        pygame.display.set_caption("Soy el mapa")
+        pygame.display.set_caption("Automaton")
         self.screen=pygame.display.set_mode((self.sWIDTH, self.sHEIGHT),RESIZABLE)
         self.screen.fill((211, 200, 227))
         self.font = pygame.font.SysFont("Arial", 12)
