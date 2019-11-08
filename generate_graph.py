@@ -17,6 +17,7 @@ class generate_graph:
         self.boy=ov
         self.police = ov
         self.people = ov
+        self.atleta = ov
         
     def in_graph_people(self,x):
         for h in self.people['graph']:
@@ -64,6 +65,13 @@ class generate_graph:
             if x==h['label']:
                 return True
         return False
+    
+    def in_graph_atleta(self,x):
+        for h in self.atleta['graph']:
+            if x==h['label']:
+                return True
+        return False
+    
     
     def generate_sheep(self):
             self.oveja['estado_inicial'] =[]
@@ -453,10 +461,10 @@ class generate_graph:
             self.boy['estado_aceptacion'] =[]
             self.boy['graph']=[]
             self.boy['transiciones'] = []
-            self.boy['estado_inicial'].append([0,0,0,0])
-            self.boy['estado_aceptacion'].append([1,1,1,1])
+            self.boy['estado_inicial'].append([0,0,0,0,0])
+            self.boy['estado_aceptacion'].append([1,1,1,1,1])
         
-            self.boy['graph'].append({'label':[0,0,0,0],'FIN':False,
+            self.boy['graph'].append({'label':[0,0,0,0,0],'FIN':False,
                                    'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
             
             self.generate_boy_r(self.boy['graph'][0])
@@ -473,63 +481,73 @@ class generate_graph:
                     return
         
             #pasar A
-            if h['label'][0]==0:
+            if h['label'][0]==0 and h['label'][4]==0:
                 aux=h['label'][:]
                 aux[0]=1
+                aux[4]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             #pasar B
-            if h['label'][1]==0:
+            if h['label'][1]==0 and h['label'][4]==0:
                 aux=h['label'][:]
                 aux[1]=1
+                aux[4]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #pasar C
-            if h['label'][2]==0:
+            if h['label'][2]==0 and h['label'][4]==0:
                 aux=h['label'][:]
                 aux[2]=1
+                aux[4]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
         
             #pasar D
-            if h['label'][3]==0:
+            if h['label'][3]==0 and h['label'][4]==0:
                 aux=h['label'][:]
                 aux[3]=1
+                aux[4]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
  
            #pasar AB
-            if h['label'][0]==0 and h['label'][1]==0:
+            if h['label'][0]==0 and h['label'][1]==0 and h['label'][4]==0:
                 aux=h['label'][:]
                 aux[0]=1
                 aux[1]=1
+                aux[4]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
                 
             #devolver A
-            if h['label'][0]==1:
+            if h['label'][0]==1 and h['label'][4]==1:
                 aux=h['label'][:]
                 aux[0]=0
+                aux[4]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             #devolver B
-            if h['label'][1]==1:
+            if h['label'][1]==1 and h['label'][4]==1:
                 aux=h['label'][:]
                 aux[1]=0
+                aux[4]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #devolver C
-            if h['label'][2]==1:
+            if h['label'][2]==1 and h['label'][4]==1:
                 aux=h['label'][:]
                 aux[2]=0
+                aux[4]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
         
             #devolver D
-            if h['label'][3]==1:
+            if h['label'][3]==1 and h['label'][4]==1 :
                 aux=h['label'][:]
                 aux[3]=0
+                aux[4]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
  
            #devolver AB
-            if h['label'][0]==1 and h['label'][1]==1:
+            if h['label'][0]==1 and h['label'][1]==1 and h['label'][4]==1:
                 aux=h['label'][:]
                 aux[0]=0
                 aux[1]=0
+                aux[4]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
         
@@ -551,10 +569,10 @@ class generate_graph:
             self.family['estado_aceptacion'] =[]
             self.family['graph']=[]
             self.family['transiciones'] = []
-            self.family['estado_inicial'].append([0,0,0,0,0])
-            self.family['estado_aceptacion'].append([1,1,1,1,1])
+            self.family['estado_inicial'].append([0,0,0,0,0,0])
+            self.family['estado_aceptacion'].append([1,1,1,1,1,1])
         
-            self.family['graph'].append({'label':[0,0,0,0,0],'FIN':False,
+            self.family['graph'].append({'label':[0,0,0,0,0,0],'FIN':False,
                                    'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
             
             self.generate_family_r(self.family['graph'][0])
@@ -571,91 +589,105 @@ class generate_graph:
                     return
         
             #pasar A
-            if h['label'][0]==0:
+            if h['label'][0]==0 and h['label'][5]==0:
                 aux=h['label'][:]
                 aux[0]=1
+                aux[5]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             #pasar B
-            if h['label'][1]==0:
+            if h['label'][1]==0 and h['label'][5]==0:
                 aux=h['label'][:]
                 aux[1]=1
+                aux[5]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #pasar C
-            if h['label'][2]==0:
+            if h['label'][2]==0 and h['label'][5]==0:
                 aux=h['label'][:]
                 aux[2]=1
+                aux[5]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
         
             #pasar D
-            if h['label'][3]==0:
+            if h['label'][3]==0 and h['label'][5]==0:
                 aux=h['label'][:]
                 aux[3]=1
+                aux[5]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
  
            #pasar CD 
-            if h['label'][2]==0 and h['label'][3]==0:
+            if h['label'][2]==0 and h['label'][3]==0 and h['label'][5]==0:
                 aux=h['label'][:]
                 aux[2]=1
                 aux[3]=1
+                aux[5] = 1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
                 
             #pasar CE
-            if h['label'][2]==0 and h['label'][4]==0:
+            if h['label'][2]==0 and h['label'][4]==0 and h['label'][5]==0:
                 aux=h['label'][:]
                 aux[2]=1
                 aux[4]=1
+                aux[5]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
                 
             #pasar DE
-            if h['label'][3]==0 and h['label'][4]==0:
+            if h['label'][3]==0 and h['label'][4]==0 and h['label'][5]==0:
                 aux=h['label'][:]
                 aux[3]=1
                 aux[4]=1
+                aux[5]=1
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #devolver A
-            if h['label'][0]==1:
+            if h['label'][0]==1 and h['label'][5]==1:
                 aux=h['label'][:]
                 aux[0]=0
+                aux[5]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             #devolver B
-            if h['label'][1]==1:
+            if h['label'][1]==1 and h['label'][5]==1:
                 aux=h['label'][:]
                 aux[1]=0
+                aux[5] = 0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
             
             #devolver C
-            if h['label'][2]==1:
+            if h['label'][2]==1 and h['label'][5]==1:
                 aux=h['label'][:]
                 aux[2]=0
+                aux[5]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
         
             #devolver D
-            if h['label'][3]==1:
+            if h['label'][3]==1 and h['label'][5]==1:
                 aux=h['label'][:]
                 aux[3]=0
+                aux[5]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
  
             #devolver CD 
-            if h['label'][2]==1 and h['label'][3]==1:
+            if h['label'][2]==1 and h['label'][3]==1 and h['label'][5]==1:
                 aux=h['label'][:]
                 aux[2]=0
                 aux[3]=0
+                aux[5]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
                 
             #devolver CE
-            if h['label'][2]==1 and h['label'][4]==1:
+            if h['label'][2]==1 and h['label'][4]==1 and h['label'][5]==1:
                 aux=h['label'][:]
                 aux[2]=0
                 aux[4]=0
+                aux[5]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
                 
             #devolver DE
-            if h['label'][3]==1 and h['label'][4]==1:
+            if h['label'][3]==1 and h['label'][4]==1 and h['label'][5]==1:
                 aux=h['label'][:]
                 aux[3]=0
                 aux[4]=0
+                aux[5]=0
                 h['adyacentes'].append({'label':aux , 'FIN':False})
         
             for j in h['adyacentes']:
@@ -1008,7 +1040,271 @@ class generate_graph:
                     i['done']=True
                     if not i['FIN']:
                         self.generate_people_r(i)        
-                        
+       
+    def generate_atleta(self):
+            self.atleta['estado_inicial'] =[]
+            self.atleta['estado_aceptacion'] =[]
+            self.atleta['graph']=[]
+            self.atleta['transiciones'] = []
+            self.atleta['estado_inicial'].append([0,0,0,0,0,0,0])
+            self.atleta['estado_aceptacion'].append([1,1,1,1,1,1,1])
+        
+            self.atleta['graph'].append({'label':[0,0,0,0,0,0,0],'FIN':False,
+                                   'adyacentes':[], 'done':True,'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+            
+            self.generate_atleta_r(self.atleta['graph'][0])
+    
+            with open('atleta.json', 'w') as outfile:
+                json.dump(self.atleta, outfile)
+                
+    def generate_atleta_r(self,h):
+            print('what?', h,'\n')
+            
+            #condicion de escape
+            for k in  self.atleta['graph']:
+                if k['label']==[1,1,1,1,1,1,1]:
+                    return
+        
+            #pasar atleta A
+            if h['label'][0]==0 and h['label'][6]==0 and h['label'][1]==0 and h['label'][3]==0 and h['label'][5]==0 or h['label'][1]==1:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[6]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #pasar atleta C
+            if h['label'][2]==0 and h['label'][6]==0 and h['label'][1]==0 and h['label'][3]==0 and h['label'][5]==0 or h['label'][3]==1:
+                aux=h['label'][:]
+                aux[2]=1
+                aux[6]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #pasar atleta E
+            if h['label'][4]==0 and h['label'][6]==0 and h['label'][1]==0 and h['label'][3]==0 and h['label'][5]==0 or h['label'][5]==1:
+                aux=h['label'][:]
+                aux[4]=1
+                aux[6]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #pasar Entrenador B
+            if h['label'][0]==1 and h['label'][6]==0 and h['label'][1]==0:
+                aux=h['label'][:]
+                aux[1]=1
+                aux[6]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #pasar Entrenador D
+            if h['label'][2]==1 and h['label'][6]==0 and h['label'][3]==0:
+                aux=h['label'][:]
+                aux[3]=1
+                aux[6]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+           
+            #pasar Entrenador F
+            if h['label'][4]==1 and h['label'][6]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[5]=1
+                aux[6]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #Pasar entrenadores BD
+            if h['label'][1]==0 and h['label'][6]==0 and h['label'][3]==0 and h['label'][0]==1 and h['label'][2]==1:
+                aux=h['label'][:]
+                aux[1]=1
+                aux[6]=1
+                aux[3]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #Pasar entrenadores Bf
+            if h['label'][1]==0 and h['label'][6]==0 and h['label'][5]==0 and h['label'][0]==1 and h['label'][4]==1:
+                aux=h['label'][:]
+                aux[1]=1
+                aux[6]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #Pasar entrenadores Df
+            if h['label'][3]==0 and h['label'][6]==0 and h['label'][5]==0 and h['label'][2]==1 and h['label'][4]==1:
+                aux=h['label'][:]
+                aux[3]=1
+                aux[6]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})    
+                
+            #Pasar atletas AC
+            if h['label'][0]==0 and h['label'][6]==0 and h['label'][2]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[6]=1
+                aux[2]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #Pasar atletas AE
+            if h['label'][0]==0 and h['label'][6]==0 and h['label'][4]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[6]=1
+                aux[4]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #Pasar atletas CE
+            if h['label'][2]==0 and h['label'][6]==0 and h['label'][4]==0:
+                aux=h['label'][:]
+                aux[2]=1
+                aux[6]=1
+                aux[4]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})            
+                
+            #devolver atleta A
+            if h['label'][0]==1 and h['label'][6]==1 and h['label'][1]==1 and h['label'][3]==1 and h['label'][5]==1 or h['label'][1]==0:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[6]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver atleta C
+            if h['label'][2]==1 and h['label'][6]==1 and h['label'][1]==1 and h['label'][3]==1 and h['label'][5]==1 or h['label'][3]==0:
+                aux=h['label'][:]
+                aux[2]=0
+                aux[6]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver atleta E
+            if h['label'][4]==1 and h['label'][6]==1 and h['label'][1]==1 and h['label'][3]==1 and h['label'][5]==1 or h['label'][5]==0:
+                aux=h['label'][:]
+                aux[4]=0
+                aux[6]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver Entrenador B
+            if h['label'][0]==0 and h['label'][6]==1 and h['label'][1]==1:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[6]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver Entrenador D
+            if h['label'][2]==0 and h['label'][6]==1 and h['label'][3]==1:
+                aux=h['label'][:]
+                aux[3]=0
+                aux[6]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+           
+            #devolver Entrenador F
+            if h['label'][4]==0 and h['label'][6]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[5]=0
+                aux[6]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver entrenadores BD
+            if h['label'][1]==1 and h['label'][6]==1 and h['label'][3]==1 and h['label'][0]==0 and h['label'][2]==0:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[6]=0
+                aux[3]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver entrenadores Bf
+            if h['label'][1]==1 and h['label'][6]==1 and h['label'][5]==1 and h['label'][0]==0 and h['label'][4]==0:
+                aux=h['label'][:]
+                aux[1]=0
+                aux[6]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver entrenadores Df
+            if h['label'][3]==1 and h['label'][6]==1 and h['label'][5]==1 and h['label'][2]==0 and h['label'][4]==0:
+                aux=h['label'][:]
+                aux[3]=0
+                aux[6]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})    
+                
+            #devolver atletas AC
+            if h['label'][0]==1 and h['label'][6]==1 and h['label'][2]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[6]=0
+                aux[2]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #devolver atletas AE
+            if h['label'][0]==1 and h['label'][6]==1 and h['label'][4]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[6]=0
+                aux[4]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+            
+            #devolver atletas CE
+            if h['label'][2]==1 and h['label'][6]==1 and h['label'][4]==1:
+                aux=h['label'][:]
+                aux[2]=0
+                aux[6]=0
+                aux[4]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            #Pasar atleta A con entrenador B
+            if h['label'][0]==0 and h['label'][6]==0 and h['label'][1]==0:
+                aux=h['label'][:]
+                aux[0]=1
+                aux[6]=1
+                aux[1]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})  
+                
+            #Pasar atleta C con entrenador D
+            if h['label'][2]==0 and h['label'][6]==0 and h['label'][3]==0:
+                aux=h['label'][:]
+                aux[2]=1
+                aux[6]=1
+                aux[3]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})   
+                
+            #Pasar atleta E con entrenador F
+            if h['label'][4]==0 and h['label'][6]==0 and h['label'][5]==0:
+                aux=h['label'][:]
+                aux[4]=1
+                aux[6]=1
+                aux[5]=1
+                h['adyacentes'].append({'label':aux , 'FIN':False})    
+             
+                #devolver atleta A con entrenador B
+            if h['label'][0]==1 and h['label'][6]==1 and h['label'][1]==1:
+                aux=h['label'][:]
+                aux[0]=0
+                aux[6]=0
+                aux[1]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})  
+                
+            #devolver atleta C con entrenador D
+            if h['label'][2]==1 and h['label'][6]==1 and h['label'][3]==1:
+                aux=h['label'][:]
+                aux[2]=0
+                aux[6]=0
+                aux[3]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})   
+                
+            #devolver atleta E con entrenador F
+            if h['label'][4]==1 and h['label'][6]==1 and h['label'][5]==1:
+                aux=h['label'][:]
+                aux[4]=0
+                aux[6]=0
+                aux[5]=0
+                h['adyacentes'].append({'label':aux , 'FIN':False})
+                
+            for j in h['adyacentes']:
+                if self.in_graph_atleta(j['label']):
+                    continue
+                else:
+                    self.atleta['graph'].append({'label':j['label'],'FIN':j['FIN'],
+                                   'adyacentes':[], 'done': False , 'x':random.randint(10, 1100),'y':random.randint(10, 500)})
+
+            for i in self.atleta['graph']:
+                if not i['done']:
+                    i['done']=True
+                    if not i['FIN']:
+                        self.generate_atleta_r(i)                 
                         
         
     '''def generate_horse(self):
