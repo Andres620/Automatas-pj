@@ -8,6 +8,8 @@ Created on Thu Oct 24 18:30:54 2019
 import pygame
 from pygame.locals import RESIZABLE
 import sys
+from time import sleep
+from pygame.locals import K_1, K_2, K_3,K_4,K_5,K_6,K_r,K_a,K_b,K_x,K_y,K_z,K_p,K_q
 
 class GUI:
     
@@ -25,19 +27,29 @@ class GUI:
         self.screen=pygame.display.set_mode((self.sWIDTH, self.sHEIGHT),RESIZABLE)
         self.screen.fill((211, 200, 227))
         self.font = pygame.font.SysFont("Arial", 12)
-        self.paintLines()
-        self.paintPath()
+        
+        
+        
         x=0
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit() 
+                if event.type == pygame.KEYDOWN:
+                    if event.key == K_1:  #llamar paso a paso
+                        self.paintPathNodes()
+                        self.paintPath()
+                    if event.key == K_2:  #limpiar pantalla
+                        x=0
+                        
             if x==0:
                self.paint(self.graph)
+               self.paintLines()
                x=x+1
             
             pygame.display.update()
+        
         
             
     def paint(self,graph):
@@ -68,7 +80,16 @@ class GUI:
         aux=self.generate_graph.return_path_pos(self.graph)
         for h in range(1,len(aux)):
            pygame.draw.line(self.screen,(23, 48, 235),(aux[h-1][0],aux[h-1][1]),(aux[h][0],aux[h][1]),2)
+           
             
+    def paintPathNodes(self):
+        aux=self.generate_graph.return_path_pos(self.graph)
+        for h in aux:
+            pygame.draw.circle(self.screen, (50, 168, 82),(h[0],h[1]), 10)
+            pygame.display.flip()
+            sleep(0.5) 
+        
+        
             
             
             
