@@ -26,9 +26,11 @@ def main():
     
     copyg=g
     aux=gr.call_return_path(copyg,copyg.graph[0])
-    print('CAMINOOOO -----', aux)
+    print('CAMINO')
+    
     for h in gr.path:
         print('--',h,'\n')
+        
     aux=gr.return_path_pos(copyg)
     print(aux)
     print(aux[0][1])

@@ -16,8 +16,8 @@ class GUI:
     def __init__(self,graph,gr):
         self.graph=graph
         self.generate_graph=gr
-        self.sWIDTH = 1180    #screen width
-        self.sHEIGHT = 600    #screen height
+        self.sWIDTH = 1300    #screen width
+        self.sHEIGHT = 700    #screen height
         self.font=None
         self.screen=None
     
@@ -41,6 +41,7 @@ class GUI:
                         self.paintPathNodes()
                         self.paintPath()
                     if event.key == K_2:  #limpiar pantalla
+                        self.screen.fill((211, 200, 227))
                         x=0
                         
             if x==0:
@@ -60,6 +61,8 @@ class GUI:
                     pygame.draw.circle(self.screen, (9, 241, 27),(h['x'],h['y']), 10)
                 if h['label']==graph.estado_aceptacion[0]:
                     pygame.draw.circle(self.screen, (241, 9, 9),(h['x'],h['y']), 10)
+                if h['FIN']:
+                    pygame.draw.circle(self.screen, (9, 40, 71),(h['x'],h['y']), 10)
                 textID = self.font.render("{}".format(h['label']), 0, (0, 0, 0))
                 self.screen.blit(textID, (h['x']-20,h['y']-10))
                 pygame.display.flip()
@@ -88,6 +91,18 @@ class GUI:
             pygame.draw.circle(self.screen, (50, 168, 82),(h[0],h[1]), 10)
             pygame.display.flip()
             sleep(0.5) 
+            
+    def paintNodesFin(self,graph):
+        if not graph is None:
+            for h in graph.graph:
+                pygame.draw.circle(self.screen, (238, 241, 9),(h['x'],h['y']), 10)
+                if h['label']==graph.estado_inicial[0]:
+                    pygame.draw.circle(self.screen, (9, 241, 27),(h['x'],h['y']), 10)
+                if h['label']==graph.estado_aceptacion[0]:
+                    pygame.draw.circle(self.screen, (241, 9, 9),(h['x'],h['y']), 10)
+                textID = self.font.render("{}".format(h['label']), 0, (0, 0, 0))
+                self.screen.blit(textID, (h['x']-20,h['y']-10))
+                pygame.display.flip()
         
         
             
